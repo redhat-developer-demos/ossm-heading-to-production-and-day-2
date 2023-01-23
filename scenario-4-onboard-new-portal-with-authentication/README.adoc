@@ -271,5 +271,5 @@ echo $TOKEN
 +
 image::../images/gto-external-ingressgateway-jtw.png[100,300]
 
-Next 
+IMPORTANT: Next in link:../scenario-5-new-regulations-mtls-everywhere/README.adoc[Scenario-5] Help the Travel to Harden security with Corporate CA and Authorization Policies
 
