@@ -311,15 +311,15 @@ As mentioned in the _Warning_ above it will still be required to have via the de
 
 This section will provide the final Production Setup with `tracing`, `metrics`, `scaled smcp components` and `runtime resource allocations`.
 
-IMPORTANT: Efforts towards delivering appropriate `Production` grade `Service Mesh` configuration should start by first establishing purpose of the Mesh and architecture principals which will determine the underlying general rules and guidelines for the use and deployment of the `Service Mesh` IT resources and assets around your specific needs.
+IMPORTANT: Efforts towards delivering appropriate `Production` grade `Service Mesh` configuration should start by first establishing objective of the Mesh and architecture principles which will determine the underlying general rules and guidelines for the use and deployment of the `Service Mesh` IT resources and assets around your specific needs.
 
-The following *Purpose* and *Principals* have been finalized with the `Travel Agency` architects and proposed `Service Mesh` configurations have been accepted based on these:
+The following *Objectives* and *Principles* have been finalized with the `Travel Agency` architects and proposed `Service Mesh` configurations have been accepted based on these:
 
-* *Purpose:*
+* *Objectives:*
 ** Secure service-to-service communications.
 ** Monitor usage and health of the inter-service communications.
 ** Allow separate teams to work in isolation whilst delivering parts of a solution.
-* *Principals:*
+* *Principles:*
 ** An external mechanism of configuration of traffic encryption, authentication and authorization.
 ** Transparent integration of additional services of expanding functionality.
 ** An external traffic management and orchestration mechanism.
