@@ -1,0 +1,21 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: authpolicy-gto-external
+  namespace: prod-istio-system
+spec:
+  selector:
+    matchLabels:
+      app: gto-external-ingressgateway
+  action: DENY
+  rules:
+    # https://istio.io/latest/docs/reference/config/security/conditions/
+    - from:
+        - source:
+            requestPrincipals: ['*']
+      when:
+        - key: request.auth.claims[iss]
+          values: ["https://keycloak-rhsso.apps.ocp4.rhlab.de/auth/realms/servicemesh-lab"]
+      to:
+        - operation:
+            notPaths: ["/flights*","/insurances*"]

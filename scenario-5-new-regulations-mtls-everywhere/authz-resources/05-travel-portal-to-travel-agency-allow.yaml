@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: allow-selective-principals-travel-agency
+  namespace: prod-travel-agency
+spec:
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            principals: ["cluster.local/ns/prod-istio-system/sa/gto-external-ingressgateway-service-account","cluster.local/ns/prod-travel-agency/sa/default","cluster.local/ns/prod-travel-portal/sa/default"]
