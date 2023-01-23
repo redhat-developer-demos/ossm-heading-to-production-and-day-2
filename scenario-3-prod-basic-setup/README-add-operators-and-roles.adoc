@@ -11,4 +11,4 @@ In this section we provide steps for the setup of `operators` and `roles` in a n
 ../common-scripts/add-operators-subscriptions-sm.sh
 ----
 
-3. As *phillip* (`Cluster Admin`) create the link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/tree/main/scenario-1-kick-off-meeting#user-content-execute-user-role-creation-for-prod-environment[`Service Mesh Roles`]
+3. As *phillip* (`Cluster Admin`) create the link:xref:../scenario-1-kick-off-meeting/README.adoc#user-content-execute-user-role-creation-for-prod-environment[`Service Mesh Roles`]
