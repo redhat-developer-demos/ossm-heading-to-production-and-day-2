@@ -1,0 +1,22 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  namespace: rhsso
+  name: istio
+  labels:
+    app: rhsso-simple
+spec:
+  realmSelector:
+    matchLabels:
+      realm: servicemesh-lab
+  client:
+    clientId: istio
+    secret: bcd06d5bdd1dbaaf81853d10a66aeb989a38dd51
+    clientAuthenticatorType: client-secret
+    protocol: openid-connect
+    publicClient: false
+    directAccessGrantsEnabled: true
+    standardFlowEnabled: true
+    redirectUris:
+      - https://gto-user-<LAB_PARTICIPANT_ID>.apps.<CLUSTERNAME>.<BASEDOMAIN>/*
+

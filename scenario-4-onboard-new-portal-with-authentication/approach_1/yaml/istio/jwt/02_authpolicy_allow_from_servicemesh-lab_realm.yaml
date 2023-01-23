@@ -1,0 +1,23 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: authpolicy-gto-external
+  namespace: prod-istio-system
+spec:
+  selector:
+    matchLabels:
+      app: gto-external-ingressgateway
+  action: ALLOW
+  rules:
+  # https://istio.io/latest/docs/reference/config/security/conditions/
+  - from:
+    - source:
+        requestPrincipals: ['*']
+    when:
+    - key: request.auth.claims[iss]
+      values: ["https://keycloak-rhsso.apps.<CLUSTERNAME>.<BASEDOMAIN>/auth/realms/servicemesh-lab"]
+#    - key: request.auth.claims[email]
+#       values:
+#      - gtouser@gto.com
+#      - another@email.com
+

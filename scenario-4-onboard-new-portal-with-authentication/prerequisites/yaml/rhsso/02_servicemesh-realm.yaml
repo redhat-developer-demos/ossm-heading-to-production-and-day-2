@@ -1,0 +1,18 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakRealm
+metadata:
+  namespace: rhsso
+  name: servicemesh-lab-realm
+  labels:
+    app: rhsso-simple
+    realm: servicemesh-lab
+spec:
+  realm:
+    id: "servicemesh-lab"
+    realm: "servicemesh-lab"
+    enabled: True
+    displayName: "Service Mesh Lab"
+  instanceSelector:
+    matchLabels:
+      # match the label of the Keycloak CR
+      app: rhsso-simple

@@ -1,0 +1,28 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakUser
+metadata:
+  namespace: rhsso
+  name: gtouser
+  labels:
+    app: rhsso-simple
+spec:
+  user:
+    username: "gtouser"
+    firstName: "Local"
+    lastName: "User"
+    email: "gtouser@gto.com"
+    enabled: True
+    emailVerified: True
+    credentials:
+      - type: "localuser"
+        value: "gtouser"
+    realmRoles:
+      - "offline_access"
+    clientRoles:
+      account:
+      - manage-account
+      realm-management:
+      - manage-users
+  realmSelector:
+    matchLabels:
+      app: rhsso-simple

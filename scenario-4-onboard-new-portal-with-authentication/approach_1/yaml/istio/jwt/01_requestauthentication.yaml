@@ -1,0 +1,14 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: jwt-rhsso-gto-external
+  namespace: prod-istio-system
+spec:
+  selector:
+    matchLabels:
+      app: gto-external-ingressgateway
+  jwtRules:
+    - issuer: >-
+        https://keycloak-rhsso.apps.<CLUSTERNAME>.<BASEDOMAIN>/auth/realms/servicemesh-lab
+      jwksUri: >-
+        https://keycloak-rhsso.apps.<CLUSTERNAME>.<BASEDOMAIN>/auth/realms/servicemesh-lab/protocol/openid-connect/certs
