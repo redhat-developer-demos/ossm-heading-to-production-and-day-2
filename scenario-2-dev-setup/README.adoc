@@ -158,7 +158,7 @@ image::./images/about.png[200,200]
 
 [NOTE]
 ====
-Access `Kiali` URL as 'mus/mus' (role `Application Viewer`)
+Access `Kiali` URL as (username/password) `mus`/`mus` (role `Application Viewer`)
 ====
 
 * As the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace. You are allowed to:
@@ -196,7 +196,7 @@ As `Product Owner` You are not allowed to view or modify the Istio Configuration
 
 [NOTE]
 ====
-Access `Kiali` URL as 'farid/farid' or 'cristina/cristina' (role `Mesh Developer`)
+Access `Kiali` URL as (username/password) `farid`/`farid` or `cristina`/`cristina` (role `Mesh Developer`)
 ====
 
 * As the `Domain Owner` of one of the _Travel Portal_ or _Travel Services_ domains you have *view* access to 
@@ -218,7 +218,7 @@ Access `Kiali` URL as 'farid/farid' or 'cristina/cristina' (role `Mesh Developer
 
 [NOTE]
 ====
-Access `Kiali` URL as 'mia/mia' (role `Application Viewer`)
+Access `Kiali` URL as `mia`/`mia` (role `Application Viewer`)
 ====
 
 * As a `Developer` for the _Travel Services_ domain *mia* is interested in viewing functional, performance or configuration issues with the workloads in the `dev-travel-agency`. Therefore, access is given to that service mesh namespace while the _Travel Portal_ domain namespaces and the service mesh control plane namespace are restricted (padlock icon).
@@ -228,7 +228,7 @@ image::./images/kial-mia-ts-developer.png[400,1000]
 
 [NOTE]
 ====
-Access `Kiali` URL as 'john/john' (role `Application Viewer`)
+Access `Kiali` URL as `john`/`john` (role `Application Viewer`)
 ====
 
 * As a `Developer` for the _Travel Portal_ domain *john* is interested in viewing functional, performance or configuration issues with the workloads in the `dev-travel-portal` and to a lesser extent the `dev-travel-control` simulator. Therefore, access is allowed to those service mesh namespaces while the _Travel Services_ domain namespaces and the service mesh control plane namespace are restricted (padlock icon).
@@ -245,7 +245,7 @@ image::./images/kiali-john-tp-dev.png[400,1000]
 
 [NOTE]
 ====
-Access `Kiali` URL as 'emma/emma' (role `Mesh Operator`)
+Access `Kiali` URL as `emma`/`emma` (role `Mesh Operator`)
 ====
 
 * As the `Mesh Operator` you have *full* access to all 3 _data plane_ namespaces and the _control plane_. 
