@@ -200,8 +200,14 @@ Access `Kiali` URL as 'farid/farid' or 'cristina/cristina' (role `Mesh Developer
 ====
 
 * As the `Domain Owner` of one of the _Travel Portal_ or _Travel Services_ domains you have *view* access to 
-** *Travel Portal* Domain: 2 _data plane_ namespaces (`dev-travel-control`, `dev-travel-portal`) and the _control plane_ namespace (see Kiali view link:./images/kiali-cristina-domain-owner-tp.png[for cristina]).
+** *Travel Portal* Domain: 2 _data plane_ namespaces (`dev-travel-control`, `dev-travel-portal`) and the _control plane_ namespace.
++
+image::./images/kiali-cristina-domain-owner-tp.png[400,1000]
+
 ** *Travel Services* Domain: 1 _data plane_ namespace (`dev-travel-agency`) and the _control plane_ namespace (see Kiali view link:./images/kiali-farid-domain-owner-ts.png[for farid]). 
++
+image::./images/kiali-farid-domain-owner-ts.png[400,1000]
+
 * You are also allowed to:
 ** see traces for the overall solution. From `Kiali` menu on the left go to `Distributed Tracing` and login with your credentials to view the tracing console
 ** see metrics. Go to `Prometheus` URL (identified above) and login with your credentials. Apply on the `Graph` view the appropriate metrics views required
