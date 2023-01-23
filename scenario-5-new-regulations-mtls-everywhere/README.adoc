@@ -98,7 +98,7 @@ oc exec "$(oc get pod -l app=istio-ingressgateway -n prod-istio-system -o jsonpa
 oc exec "$(oc get pod -l app=hotels -n prod-travel-agency -o jsonpath={.items..metadata.name})" -c istio-proxy -n prod-travel-agency -- openssl s_client -showcerts -connect $(oc get svc discounts -o jsonpath={.spec.clusterIP}):8000
 ----
 
-* The link:https://docs.openshift.com/container-platform/4.10/service_mesh/v2x/ossm-security.html#ossm-cert-manage-add-cert-key_ossm-security[documentation] instructs to create a secret named `cacert` that includes the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`. Based on the files you generated the equivalent are:
+* The link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-security.html#ossm-cert-manage-add-cert-key_ossm-security[documentation] instructs to create a secret named `cacert` that includes the input files `ca-cert.pem`, `ca-key.pem`, `root-cert.pem` and `cert-chain.pem`. Based on the files you generated the equivalent are:
 ** `intermediate.cert.pem` (`ca-cert.pem`). the certificate for the intermediate ca
 ** `intermediate.key.pem` (`ca-key.pem`). the key for the intermediate ca certificate
 ** `ca.cert.pem` (`root-cert.pem`): the root ca certificate
@@ -630,6 +630,8 @@ oc apply -f authz-resources/06-gto-external-travels-only-flights-insurances-path
 
 image::./images/corporate-mtls-authz.png[300,700]
 
+
+IMPORTANT: Next in link:../scenario-6-partner-agency-multi-mesh/README.adoc[Scenario-6] Help the Travel Agency to integrate a new Insurance provider via Service Mesh Federation.
 
 == Resources
 * https://istio.io/latest/docs/ops/best-practices/security/#use-default-deny-patterns
