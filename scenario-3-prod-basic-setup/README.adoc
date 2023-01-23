@@ -155,7 +155,7 @@ The above script has already utilized the `jaeger-small-production` setup in the
 A `production` deployment of `ServiceMeshControlPlane` utilizing the external `Jaeger` resource will have been created in the `prod-istio-system` namespace.
 ----
 NAME         READY   STATUS            PROFILES      VERSION   AGE
-production   10/10   ComponentsReady   ["default"]   2.2.1     6m41s
+production   10/10   ComponentsReady   ["default"]   2.3.0     6m41s
 
 apiVersion: maistra.io/v2
 kind: ServiceMeshControlPlane
@@ -199,7 +199,7 @@ spec:
       enabled: true
     prometheus:
       enabled: true
-  version: v2.2
+  version: v2.3
   telemetry:
     type: Istiod"
 ----
@@ -376,115 +376,4 @@ curl -v http://$(oc get route istio-ingressgateway -o jsonpath='{.spec.host}' -n
 done
 ----
 
-=== ARCHIVE Resources for PROD the setup
 
-[NOTE]
-====
-Actions with role `Mesh Operator`
-====
-
-----
-./login-as.sh emma
-./create-prod-smcp.sh prod-istio-system prod-basic
-----
-
-
-.PROMETHEUS & JAEGER For Production
-* Configure redundancy for OpenShift Service Mesh control plane components https://access.redhat.com/solutions/6116241
-* Service Mesh in Production Topic                    https://issues.redhat.com/browse/OSSMDOC-226
-* Performance and scalability                         https://docs.openshift.com/container-platform/4.10/service_mesh/v2x/ossm-performance-scalability.html
-* Document a production-ready SMCP reference          https://issues.redhat.com/browse/OSSMDOC-274
-* Improve Kiali on Prometheus Production scenarios    https://issues.redhat.com/browse/OSSM-571
-* Jaeger for Production:                              https://docs.openshift.com/container-platform/4.6/service_mesh/v2x/ossm-reference-jaeger.html#distributed-tracing-config-external-es_jaeger-config-reference
-* EMAIL THREAD:   [istio-sme] Prometheus User Workload instance and ServiceMesh (case 03190111)
-* EMAIL THREAD:   Re: Monitoring Service Mesh metrics via Prometheus federation
-* Sending metrics to user workload prometheus (UDP)
-+
-----
-1. turn on user workload monitoring.
-2. create a servicemonitore in the tenant namespaces that belong to the mesh to point to the metrics endpoints of the pods in the mesh
-3. create a few more servicemonitors in the mesh control plane namespace to collect a few more mesh metrics
-
-After this all of the mesh metrics are also available in the user workload prometheus. Tenants can add prometheus rules and alerts.
-Dashboards can be created pointing to the thanos queries which merges the platform prometheus and the user workload prometheus allowing for full visibility of workload metrics.
-----
-
-
-
-
-
-
-
-
-
-
-
-
-
-oc get deployment prometheus -o=json | jq '.spec.template.spec.containers[1].args'
-[
-  "--storage.tsdb.retention.time=6h",
-  "--storage.tsdb.path=/prometheus",
-  "--config.file=/etc/prometheus/prometheus.yml",
-  "--discovery.member-roll-name=default",
-  "--discovery.member-roll-namespace=prod-istio-system"
-]
-
-
-oc describe deployment prometheus |grep -A 3 prometheus-k8s-db
-prometheus-k8s-db:
-Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
-ClaimName:  prometheus-db-pvc
-ReadOnly:   false
-
-
-oc get pvc
-NAME                                                                     STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS          AGE
-elasticsearch-elasticsearch-cdm-prodistiosystemjaegersmallproduction-1   Bound    pvc-a880c4a3-e20b-48bc-9ce9-b699d057f114   1Gi        RWO            managed-nfs-storage   16d
-prometheus-db-pvc                                                        Bound    pvc-779bf43a-cfd1-4c5c-bd8c-8eac760d3093   10Gi       RWO            managed-nfs-storage   31s
-
-
-origargs=$(oc -n prod-istio-system get deployment prometheus -o jsonpath='{.spec.template.spec.containers[1].args}')
-echo $origargs
-finalargs=${origargs/6h/168h}
-echo $finalargs
-echo oc -n prod-istio-system patch deployment prometheus \
-echo   --type='json' \
-echo   "-p='[{"op": "replace", "path": "/spec/template/spec/containers/1/args", "value": $finalargs}]'"
-
-oc -n prod-istio-system patch deployment prometheus --type='json' -p='[{"op": "replace", "path": "/spec/template/spec/containers/1/args", "value": "'${finalargs}'"}]'
-
-
-oc -n prod-istio-system patch deployment prometheus \
---type=json \
--p='[{"op": "add", "path": "/spec/template/spec/containers/1/args/-", "value": "'--storage.tsdb.retention=168h'"}]'
-
-ADD
------------
-oc -n prod-istio-system patch deployment prometheus \
---type=json \
--p='[{"op": "add", "path": "/spec/template/spec/containers/1/args/-", "value": "'--storage.tsdb.retention=168h'"}]'
-
-          image: >-
-            registry.redhat.io/openshift-service-mesh/prometheus-rhel8@sha256:fd4f9fa4de3b63d3852a1e17e74f16b46fb0cc3ecda6d0cf9097703e62a781a5
-          args:
-            - '--storage.tsdb.retention.time=6h'
-            - '--storage.tsdb.path=/prometheus'
-            - '--config.file=/etc/prometheus/prometheus.yml'
-            - '--discovery.member-roll-name=default'
-            - '--discovery.member-roll-namespace=prod-istio-system'
-
-UPDATE
------------
-kubectl patch deployment \
-kubernetes-dashboard \
---namespace kubernetes-dashboard \
---type='json' \
--p='[{"op": "replace", "path": "/spec/template/spec/containers/0/args", "value": [
-"--auto-generate-certificates",
-"--enable-insecure-login",
-"--enable-skip-login",
-"--namespace=kubernetes-dashboard"
-]}]'
-
-oc set volume deployment/prometheus --add --name=prometheus-k8s-db -t pvc --claim-name=prometheus-db-pvc --claim-size=50Gi --overwrite -n prod-istio-system
