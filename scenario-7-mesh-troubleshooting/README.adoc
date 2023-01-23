@@ -244,7 +244,7 @@ image::./images/jaeger-spans.png[200,400]
 ** Check the current `istio-proxy` logging levels `./istioctl proxy-config log <POD NAME>`
 ** and apply new levels as required `./istioctl proxy-config log <POD NAME> --level http2:debug,grpc:debug`
 ** When viewing the results we can take into consideration possible link:https://github.com/skoussou/openshift-service-mesh-application-troubleshooting/blob/main/TROUBLESHOOTING-ACTIONS.adoc#appendix-e-response-flags[Response Flags] whilst link:https://github.com/skoussou/openshift-service-mesh-application-troubleshooting/blob/main/TROUBLESHOOTING-ACTIONS.adoc#appendix-f-envoy-logs-parsing[parsing the resulting logs].
-** Furthermore, configuring link:https://docs.openshift.com/container-platform/4.10/networking/ingress-operator.html#nw-configure-ingress-access-logging_configuring-ingress[Ingress access logging] may be necessary to get a full picture of the incoming flow of traffic.
+** Furthermore, configuring link:https://docs.openshift.com/container-platform/4.11/networking/ingress-operator.html#nw-configure-ingress-access-logging_configuring-ingress[Ingress access logging] may be necessary to get a full picture of the incoming flow of traffic.
 
 === Security Health Checking
 
