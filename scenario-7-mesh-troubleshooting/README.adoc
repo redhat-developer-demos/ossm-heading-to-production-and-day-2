@@ -23,7 +23,7 @@ In the following sections we provide guidance on how to identify the answers to 
 
 == Understanding what is involved
 
-In order to identify possible problems in the mesh it is important to be clear on what are the link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-architecture.html[mesh components] and their purpose, their configurations (including where they are applied from), the expected flow of traffic and the tools the `Mesh Operator` and `Application Ops Team` link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/tree/main/scenario-1-kick-off-meeting#user-content-map-to-enterprise-personas-with-roles-key-responsibilities-setup[personas] can utilize in `production` (or `Mesh Developer` in lower environments) to debug any issues.
+In order to identify possible problems in the mesh it is important to be clear on what are the link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-architecture.html[mesh components] and their purpose, their configurations (including where they are applied from), the expected flow of traffic and the tools the `Mesh Operator` and `Application Ops Team` xref:../scenario-1-kick-off-meeting/README.adoc#map-to-enterprise-personas-with-roles-key-responsibilities-setup[personas] can utilize in `production` (or `Mesh Developer` in lower environments) to debug any issues.
 
 As far as components in the mesh we will focus on the following:
 
@@ -248,7 +248,7 @@ image::./images/jaeger-spans.png[200,400]
 
 === Security Health Checking
 
-With increasing complexity of mesh security requirements it is important to ensure the certificates used for authentication and encryption of mTLS traffic are correct. In Scenario-link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/tree/main/scenario-5-new-regulations-mtls-everywhere#user-content-restart-controlplane-and-dataplane-resources-to-force-new-certificate-utilization[New regulation to secure all information] we have defined 2 scripts link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-5-new-regulations-mtls-everywhere/scripts/verify-controlplane-certs.sh[`verify-controlplane-certs.sh`] and link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-5-new-regulations-mtls-everywhere/scripts/verify-dataplane-certs.sh[`verify-dataplane-certs.sh`] which verify the certificates. Consider utilizing these scripts to ensure the expected certificates are in place.
+With increasing complexity of mesh security requirements it is important to ensure the certificates used for authentication and encryption of mTLS traffic are correct. In Scenario-link:../scenario-5-new-regulations-mtls-everywhere#user-content-restart-controlplane-and-dataplane-resources-to-force-new-certificate-utilization[New regulation to secure all information] we have defined 2 scripts link:../scenario-5-new-regulations-mtls-everywhere/scripts/verify-controlplane-certs.sh[`verify-controlplane-certs.sh`] and link:../scenario-5-new-regulations-mtls-everywhere/scripts/verify-dataplane-certs.sh[`verify-dataplane-certs.sh`] which verify the certificates. Consider utilizing these scripts to ensure the expected certificates are in place.
 
 Furthermore, community tool `ksniff` can be link:https://asciinema.org/a/361823[installed] and utilized to verify at packet level if TLS is applied to the traffic eg.
 
