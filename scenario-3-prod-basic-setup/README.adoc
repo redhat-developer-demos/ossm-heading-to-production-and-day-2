@@ -356,11 +356,11 @@ For further information on configuring the `SMCP` refer to:
 
 === Access of Observability in `Prod`
 
-As in the `Dev` environment verify link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/tree/main/scenario-2-dev-setup#user-content-dev-setup-verification-observability-usage[access to the Observability stack] as one of the following link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-1-kick-off-meeting/README.adoc#user-content-mapping-enterprise-users-to-roles-in-the-higher-prod-environment[Higher (PROD) Environment Users]
+As in the `Dev` environment verify xref:../scenario-2-dev-setup#user-content-dev-setup-verification-observability-usage[access to the Observability stack] as one of the following xref:../scenario-1-kick-off-meeting/README.adoc#user-content-mapping-enterprise-users-to-roles-in-the-higher-prod-environment[Higher (PROD) Environment Users]
 
-During _Day 2_ Operations - link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-9-mesh-tuning/README.adoc[Tuning the Mesh]) we will test for performance the _Service Mesh_ and utilize the Observability for tracing and sizing the components.
+During _Day 2_ Operations - link:../scenario-9-mesh-tuning/README.adoc[Tuning the Mesh]) we will test for performance the _Service Mesh_ and utilize the Observability for tracing and sizing the components.
 
-In addition, applying corporate _CA Certificates_ for _intramesh_ `mTLS` communications in Production will be a follow-up activity during the link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-5-new-regulations-mtls-everywhere/README.adoc[Secure all information] section.
+In addition, applying corporate _CA Certificates_ for _intramesh_ `mTLS` communications in Production will be a follow-up activity during the link:../scenario-5-new-regulations-mtls-everywhere/README.adoc[Secure all information] section.
 
 == Appendix B - A simple tracing application
 
