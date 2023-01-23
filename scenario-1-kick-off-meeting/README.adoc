@@ -45,7 +45,8 @@ For the purpose of the provided scenarios the travel agency has selected the fol
 
 == Map to Enterprise Personas with Roles & Key Responsibilities setup 
 
-The outcome of the <<User Governance Capture, User Governance Capture workshop>>  and the team <<requirements, Requirements for Mesh Adoption>> is the definition of the following enterprise personas to be described as those that will interact with the Service Mesh (OSSM). See <<roleusercreation, Execute Role & User Creation>> for the creation of users and roles in `DEV` and `PROD` environments.
+The outcome of the <<User Governance Capture, User Governance Capture workshop>>  and the team <<requirements, Requirements for Mesh Adoption>> is the definition of the following enterprise personas to be described as those that will interact with the Service Mesh (OSSM). As Upstream Istio, and so OpenShift Service Mesh, do not define standard or default user roles this often causes confusion on what capabilities and responsibilities inside Openshift these personas should have. We have created 3 Roles for the personas and applied them to OCP
+See <<roleusercreation, Execute Role & User Creation>> for the creation of users and roles in `DEV` and `PROD` environments.
 
 [cols="1,1,2,5,1"]
 .Personas & Roles
