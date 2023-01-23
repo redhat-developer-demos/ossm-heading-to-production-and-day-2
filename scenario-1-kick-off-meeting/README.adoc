@@ -164,7 +164,7 @@ See <<roleusercreation, Execute Role & User Creation>> for the creation of users
 
 | emma | Mesh Operator |  link:./scripts/create-mesh-operator-roles.sh[`Mesh Operator`] | `prod-istio-system`
 
-| cristina | Travel Portal Domain Owner (Tech Lead)  | link:./scripts/create-mesh-dev-roles.sh[`Mesh Developer`]> | `prod-travel-portal`, `prod-travel-control`
+| cristina | Travel Portal Domain Owner (Tech Lead)  | link:./scripts/create-mesh-dev-roles.sh[`Mesh Developer`] | `prod-travel-portal`, `prod-travel-control`
 
 | farid | Travel Services Domain Owner (Tech Lead)  | link:./scripts/create-mesh-dev-roles.sh[`Mesh Developer`] | `prod-travel-agency`
 
