@@ -217,7 +217,7 @@ The applied `ServiceMeshControlPlane` Resource ensures that:
 With the production `Service Mesh` configured to collect and store traces, it is time to configure the _data plane_. In order to do that we have to configure the `Deployment`(s) that will be part of the `Service Mesh` to contain
 
 1. `istio-proxy` sidecar container: used to proxy all communications in/out of the main application container and apply `Service Mesh` configurations
-2. `jaeger-agent` sidecar container: The `Service Mesh` in documentation link:https://docs.openshift.com/container-platform/4.10/service_mesh/v2x/ossm-reference-jaeger.html#distr-tracing-deployment-best-practices_jaeger-config-reference[Jaeger Agent Deployment Best Practices] mentions the options of deploying `jaeger-agent` as sidecar or as `DaemonSet`. We have selected the former in order to allow `multi-tenancy` in the Openshift cluster as alternatively with the use of `DaemonSet` there would only ever be a single Service Mesh tenant in the clusster.
+2. `jaeger-agent` sidecar container: The `Service Mesh` in documentation link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-reference-jaeger.html#distr-tracing-deployment-best-practices_jaeger-config-reference[Jaeger Agent Deployment Best Practices] mentions the options of deploying `jaeger-agent` as sidecar or as `DaemonSet`. We have selected the former in order to allow `multi-tenancy` in the Openshift cluster as alternatively with the use of `DaemonSet` there would only ever be a single Service Mesh tenant in the clusster.
 
 All `Deployment`(s) will be patched as follows to deliver the above (*Note:* don't do it manually as a script in the following steps below will help you to achieve this):
 ----
