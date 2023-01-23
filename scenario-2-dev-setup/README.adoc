@@ -40,7 +40,7 @@ cd ossm-heading-to-production-and-day-2/scenario-2-dev-setup
 ../common-scripts/create-travel-agency-namespaces.sh dev
 ----
 
-3. As *phillip* (`Cluster Admin`) create the link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#execute-role--user-creation[`Service Mesh Roles`]
+3. As *phillip* (`Cluster Admin`) create the link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#roleusercreation[`Service Mesh Roles`]
 
 4. As *phillip* (`Cluster Admin`) create the link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#mapping-enterprise-users-to-roles-in-the-dev-environment[`DEV` Service Mesh Users and assign Roles]
 
