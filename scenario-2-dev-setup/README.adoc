@@ -161,7 +161,10 @@ image::./images/about.png[200,200]
 Access `Kiali` URL as 'mus/mus' (role `Application Viewer`)
 ====
 
-* As the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace (see Kiali link:./images/kiali-mus-product-owner.png[screenshot]). You are allowed to:
+* As the `Product Owner` you have *view* access to all 3 _data plane_ namespaces and the _control plane_ namespace. You are allowed to:
++
+image::./images/kiali-mus-product-owner.png[200,200]
++
 ** see traces for the overall solution. From the `Kiali` menu on the left go to `Distributed Tracing` and login with your credentials to view the tracing console
 ** see metrics for the overall solution.Go to `Workloads` in `Kiali` and select one application workload. Use the `inbound` or `outbound` metrics. Alternatively, go to the `Prometheus` URL (identified above) and login with your credentials. Apply on the `Graph` view 
 *** `istio_requests_total{destination_workload="discounts-v1", app="discounts"}` to visualize requests towards `discounts-v1`
