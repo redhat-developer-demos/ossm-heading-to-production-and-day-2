@@ -8,7 +8,7 @@ All actions to reference a Role to be performed under
 
 == Who are the Mesh Users?
 
-The xref:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#mapping-enterprise-users-to-roles-in-the-dev-environment[`DEV` Environment users] have been defined during `Kick Off Meeting`
+The link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#mapping-enterprise-users-to-roles-in-the-dev-environment[`DEV` Environment users] have been defined during `Kick Off Meeting`
 
 == Setup `DEV` Environment
 
