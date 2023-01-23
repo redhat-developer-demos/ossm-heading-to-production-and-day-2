@@ -347,7 +347,7 @@ Actions with role `Mesh Operator`
 For further information on configuring the `SMCP` refer to:
 
 * link:https://maistra.io/docs/ossm-custom-resources.html#ossm-cr-example_ossm-custom-resources-v2x[Maistra Service Mesh custom resources]
-* link:https://github.com/maistra/istio-operator/blob/maistra-2.3/manifests-servicemesh/2.2.1/servicemeshcontrolplanes.crd[Maistra SMCP CRD]
+* link:https://github.com/maistra/istio-operator/blob/maistra-2.3/manifests-servicemesh/2.3.0/servicemeshcontrolplanes.crd.yaml[Maistra SMCP CRD]
 * link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-performance-scalability.html[OSSM Performance and scalability]
 
 
