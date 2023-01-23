@@ -8,7 +8,7 @@ All actions to reference a Role to be performed under
 
 == Who are the Mesh Users?
 
-The link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#mapping-enterprise-users-to-roles-in-the-dev-environment[`DEV` Environment users] have been defined during `Kick Off Meeting`
+The xref:../scenario-1-kick-off-meeting/README.adoc#mapping-enterprise-users-to-roles-in-the-dev-environment[`DEV` Environment users] have been defined during `Kick Off Meeting`
 
 == Setup `DEV` Environment
 
@@ -40,9 +40,9 @@ cd ossm-heading-to-production-and-day-2/scenario-2-dev-setup
 ../common-scripts/create-travel-agency-namespaces.sh dev
 ----
 
-3. As *phillip* (`Cluster Admin`) create the link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#roleusercreation[`Service Mesh Roles`]
+3. As *phillip* (`Cluster Admin`) create the xref:../scenario-1-kick-off-meeting/README.adoc#roleusercreation[`Service Mesh Roles`]
 
-4. As *phillip* (`Cluster Admin`) create the link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#mapping-enterprise-users-to-roles-in-the-dev-environment[`DEV` Service Mesh Users and assign Roles]
+4. As *phillip* (`Cluster Admin`) create the xref:../scenario-1-kick-off-meeting/README.adoc#mapping-enterprise-users-to-roles-in-the-dev-environment[`DEV` Service Mesh Users and assign Roles]
 
 
 === Mesh Operator - Service Mesh Control Namespace and `ServiceMeshControlPlane` Creation
@@ -122,7 +122,7 @@ Actions with role `Mesh Developer`
 Actions with role `Mesh Operator`
 ====
 
-* Create Istio `Gateway` resource (Refer to link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#user-governance-capture[User Governance Capture - Self Service] for the decision to create `Gateway` as a `mesh operator`)
+* Create Istio `Gateway` resource (Refer to xref:../scenario-1-kick-off-meeting/README.adoc#user-governance-capture[User Governance Capture - Self Service] for the decision to create `Gateway` as a `mesh operator`)
 
 ----
 ./login-as.sh emma
