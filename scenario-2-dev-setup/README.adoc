@@ -255,6 +255,9 @@ Access `Kiali` URL as `emma`/`emma` (role `Mesh Operator`)
 ** Finally, you can like the previous users access `prometheus`, `jaeger` and `grafana`. On the latter there is a dashboard to visualize the state of the service mesh _control plane_
 *** *Dashboards -> Manage-> Istio -> Istio Control Plane Dashboard*)  dashboards (see  link:./images/grafana-cp-dashboard.png[Istio Control Plane Dashboard])
 
+IMPORTANT: Next in link:../scenario-3-prod-basic-setup/README.adoc[Scenario-3] Help the Travel to Setup a Production Environment
+
+
 == RESET Actions
 
 ----

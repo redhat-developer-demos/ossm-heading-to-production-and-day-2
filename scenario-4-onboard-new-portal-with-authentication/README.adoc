@@ -263,11 +263,13 @@ https://keycloak-rhsso.apps.<CLUSTERNAME>.<BASEDOMAIN>/auth/realms/servicemesh-l
 echo $TOKEN
 ----
 
-* Finally, use this JWT token to access as `GTO` user the _Travel Agency APIs`
+* Finally, use this JWT token to access as `GTO` user the _Travel Agency APIs_
 +
 ----
 ./scripts/call-via-mtls-and-jwt-travel-agency-api.sh prod-istio-system gto-external $TOKEN
 ----
 +
 image::../images/gto-external-ingressgateway-jtw.png[100,300]
+
+Next 
 

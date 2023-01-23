@@ -277,3 +277,6 @@ The final step in the requirements analysis phase is to determine an architectur
 
 |===
 
+
+IMPORTANT: Next in link:../scenario-2-dev-setup/README.adoc[Scenario-2] Help the Travel to Setup a Development Environment
+

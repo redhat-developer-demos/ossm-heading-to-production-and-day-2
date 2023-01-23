@@ -362,6 +362,10 @@ During _Day 2_ Operations - link:../scenario-9-mesh-tuning/README.adoc[Tuning th
 
 In addition, applying corporate _CA Certificates_ for _intramesh_ `mTLS` communications in Production will be a follow-up activity during the link:../scenario-5-new-regulations-mtls-everywhere/README.adoc[Secure all information] section.
 
+
+IMPORTANT: Next in link:../scenario-4-onboard-new-portal-with-authentication/README.adoc[Scenario-4] Help the Travel Agency through onboarding a New Business Opportunity and secure via MTLS and JWT
+
+
 == Appendix B - A simple tracing application
 
 A simple application which can help setup and debug the configurations for tracing and metrics.
