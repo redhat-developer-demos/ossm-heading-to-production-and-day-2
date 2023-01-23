@@ -4,7 +4,7 @@
 [[requirements]]
 == Requirements focused on Production setup
 
-The requirements below are a summary and refinement, based on further analysis, of functional and non-functional _needs_ in production (originally defined during the link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#requirements-capture-to-drive-mesh-adoption--configuration[Kickoff Meeting Requirements gathering]):
+The requirements below are a summary and refinement, based on further analysis, of functional and non-functional _needs_ in production (originally defined during the xref:../scenario-1-kick-off-meeting/README.adoc#requirements-capture-to-drive-mesh-adoption--configuration[Kickoff Meeting Requirements gathering]):
 
 1. The _Development Team_ want to be able to trace `20%` of traffic in Production  (with traces persisted for up to 1 week)
 2. The _Product Team_ want to see metrics around performance/usage (with metrics persisted for up to 1 week)
@@ -12,7 +12,7 @@ The requirements below are a summary and refinement, based on further analysis, 
 
 == Configuring Roles and permissions
 
-For the purpose of managing, monitoring and troubleshooting the Production environment we need specific Enterprise Personas. You can find the description of these link:https://github.com/redhat-developer-demos/ossm-heading-to-production-and-day-2/blob/main/scenario-1-kick-off-meeting/README.adoc#map-to-enterprise-personas-with-roles--key-responsibilities-setup[Personas here].
+For the purpose of managing, monitoring and troubleshooting the Production environment we need specific Enterprise Personas. You can find the description of these xref:../scenario-1-kick-off-meeting/README.adoc#map-to-enterprise-personas-with-roles--key-responsibilities-setup[Personas here].
 
 * Production Mesh Admin (setup `SMCP`, operates the `SMCP`, `SMBR` -observability, scalability, certs etc. and observes the Control Plane)
 * Production Application Operator (create/update application mesh configs although it can be assisted by GitOps acting on the setup)
