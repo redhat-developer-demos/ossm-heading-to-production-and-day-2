@@ -172,11 +172,11 @@ image::./images/kiali-mus-product-owner.png[400,800]
 *** `istio_response_bytes_bucket`
 ** see dashboards in grafana for the solution. Access the `Grafana` URL as 'mus/mus' (role `Application Viewer`, See above on how to find the URL)
 *** Check the 'status' of the overall Travel Agency solution *Dashboards -> Manage -> Istio -> Istio Mesh Dashboard*
-+
+
 image::./images/grafana-istio-mesh-dashboard.png[400,1000]
 
 *** Check the 'performance' of the overall Travel Agency solution *Dashboards -> Manage -> Istio -> Istio Mesh Dashboard*
-+
+
 image::./images/grafana-performance.png[400,1000]
 
 
