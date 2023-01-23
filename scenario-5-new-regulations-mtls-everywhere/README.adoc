@@ -478,14 +478,22 @@ image::../images/DENY-ALL-KIALI.png[150,350]
 
 Below the appropriate user applies the `AuthorizationPolicy` based on what access is allowed towards the services for the `Travel Agency` business.
 
-1. As *emma* (`Mesh Operator`) allow access from the default `istio-ingressgateway` towards the _Travel Portal_.
+1. As *emma* (`Mesh Operator`) allow external traffic from the default `istio-ingressgateway` .
 * The `istio-ingressgateway` is set to `ALLOW` calls on any /PATH
-* The principal `cluster.local/ns/prod-istio-system/sa/istio-ingressgateway-service-account` will be allowed to make calls to `prod-travel-control` namespace.
 +
 ----
 ./login-as.sh emma
-oc apply -f authz-resources/02-travel-portal-allow.yaml
+oc apply -f authz-resources/02-travel-portal-allow-external-traffic.yaml
 ----
+
+2. As *cristina*  (`Mesh Devloper`) _Travel Portal Domain Owner (Tech Lead)_ allow traffic from `istio-ingressgateway` towards the _Travel Portal_.
+* The principal `cluster.local/ns/prod-istio-system/sa/istio-ingressgateway-service-account` will be allowed to make calls to `prod-travel-control` namespace.
++
+----
+./login-as.sh cristina
+oc apply -f authz-resources/02-travel-portal-allow-istio-ingressgateway-traffic.yaml
+----
+
 * The result is access to the _Travel Portal_ UI is (within a few seconds) reinstated (try link:https://travel-prod-istio-system.apps.<CLUSTERNAME>.<BASEDOMAIN>/[`https://travel-prod-istio-system.apps.<CLUSTERNAME>.<BASEDOMAIN>/`])
 
 2. As *farid* (`Mesh Operator`) _Travel Services Domain Owner (Tech Lead)_ allow access from `gto-external-ingressgateway` towards `travels.prod-travel-agency`, `hotels.prod-travel-agency`, `cars.prod-travel-agency`, `insurances.prod-travel-agency`, `flights.prod-travel-agency` in order to enable _GTO_ Travel search requests.
