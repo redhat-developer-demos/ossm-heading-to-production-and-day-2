@@ -1,0 +1,14 @@
+= Preparing a new cluster for the production environment
+:toc:
+
+In this section we provide steps for the setup of `operators` and `roles` in a new cluster
+
+
+1. As *phillip* (`Cluster Admin`) add the `OSSM` Operators in the OCP Cluster via the `Openshift Market Place`
++
+----
+./login-as.sh phillip
+../common-scripts/add-operators-subscriptions-sm.sh
+----
+
+3. As *phillip* (`Cluster Admin`) create the link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/tree/main/scenario-1-kick-off-meeting#user-content-execute-user-role-creation-for-prod-environment[`Service Mesh Roles`]

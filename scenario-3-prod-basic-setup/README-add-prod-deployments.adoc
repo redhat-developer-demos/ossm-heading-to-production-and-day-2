@@ -1,0 +1,62 @@
+= Setting up the production environment
+:toc:
+
+In this section we provide an explicit list of actions to by the appropriate enterprise persona to deploy the `PROD` applications which is
+
+=== Domain Owner - Application Namespaces Service Mesh Membership enrollnment and applications deployment
+
+[NOTE]
+====
+Actions with role `Mesh Developer`
+====
+
+1. As *farid* (`Mesh Developer`) _Travel Services Domain Owner (Tech Lead)_ deploy the applications to `prod-travel-agency` namespaces
+
+** Check labels on projects prior to `SMM` creation
++
+----
+./login-as.sh farid
+../common-scripts/check-project-labels.sh prod-travel-agency
+----
+
+** Add `SMM` with `prod-travel-agency` namespace to `production` `ServiceMeshControlPlane` service mesh in `prod-istio-system`
++
+----
+./login-as.sh farid
+../common-scripts/create-membership.sh prod-istio-system production prod-travel-agency
+../common-scripts/check-project-labels.sh prod-travel-agency
+----
+
+** Deploy the Applications in `prod-travel-agency` namespaces
++
+----
+./login-as.sh farid
+./scripts/deploy-travel-services-domain.sh prod prod-istio-system
+----
+
+2. As *cristina* (`Mesh Developer`) _Travel Portal Domain Owner (Tech Lead)_ add the `ServiceMeshMember` (`SMM`) (service mesh membership) resource for `prod-travel-control`, `prod-travel-portal` namespaces
++
+** Check labels on projects prior to `SMM` creation
++
+----
+./login-as.sh cristina
+../common-scripts/check-project-labels.sh prod-travel-control
+../common-scriptscheck-project-labels.sh prod-travel-portal
+----
+
+** Add `SMM` with namespaces to `production` `ServiceMeshControlPlane` service mesh in `prod-istio-system`
++
+----
+./login-as.sh cristina
+../common-scripts/create-membership.sh prod-istio-system production prod-travel-control
+../common-scripts/check-project-labels.sh prod-travel-control
+../common-scripts/create-membership.sh prod-istio-system production prod-travel-portal
+../common-scripts/check-project-labels.sh prod-travel-portal
+----
+
+** Deploy the Applications in `prod-travel-control`, `prod-travel-portal` namespaces and `Istio` configs to expose Service Mesh services
++
+----
+./login-as.sh cristina
+./scripts/deploy-travel-portal-domain.sh prod prod-istio-system <OCP CLUSTER DOMAIN eg. apps.example.com>
+----

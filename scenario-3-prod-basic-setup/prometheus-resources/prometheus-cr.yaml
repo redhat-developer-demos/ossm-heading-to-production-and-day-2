@@ -1,0 +1,188 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  labels:
+    app.kubernetes.io/component: prometheus
+    app.kubernetes.io/name: prometheus
+    app.kubernetes.io/version: 2.32.1
+    prometheus: prometheus
+    maistra.io/member-of: prod-istio-system
+  name: prometheus
+spec:
+  storage: {
+    volumeClaimTemplate: {
+      apiVersion: 'v1',
+      kind: 'PersistentVolumeClaim',
+      spec: {
+        accessModes: [ 'ReadWriteOnce' ],
+        resources: { requests: { storage: '5Gi' } },
+        storageClassName: 'gp2',
+      }
+    }
+  }
+  nodeSelector: {}
+  serviceAccountName: prometheus
+  secrets:
+    - prometheus-tls
+    - prometheus-proxy
+    - htpasswd
+  externalUrl: >-
+    https://prometheus-prod-istio-system.apps.cluster-94qkd.94qkd.sandbox1628.opentlc.com/
+  listenLocal: true
+  serviceMonitorSelector: {}
+  resources:
+    requests:
+      cpu: 70m
+      memory: 1Gi
+  podMonitorNamespaceSelector: {}
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
+                  - ppc64le
+                  - s390x
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 2
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
+        - weight: 2
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - ppc64le
+        - weight: 2
+          preference:
+            matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                  - s390x
+  probeNamespaceSelector: {}
+  securityContext: {}
+  probeSelector: {}
+  containers:
+    - args:
+        - '-provider=openshift'
+        - '-https-address=:3001'
+        - '-http-address='
+        - '-email-domain=*'
+        - '-display-htpasswd-form=false'
+        - '-upstream=http://localhost:9090'
+        - '-htpasswd-file=/etc/proxy/htpasswd/auth'
+        - '-openshift-service-account=prometheus'
+        - '-openshift-sar={"resource": "namespaces", "verb": "get"}'
+        - >-
+          -openshift-delegate-urls={"/": {"resource": "namespaces", "verb":
+          "get"}}
+        - '-tls-cert=/etc/tls/private/tls.crt'
+        - '-tls-key=/etc/tls/private/tls.key'
+        - >-
+          -client-secret-file=/var/run/secrets/kubernetes.io/serviceaccount/token
+        - '-cookie-secret-file=/etc/proxy/secrets/session_secret'
+        - '-openshift-ca=/etc/pki/ca-trust/extracted/pem/ca-bundle.crt'
+        - '-openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt'
+      env:
+        - name: HTTP_PROXY
+        - name: HTTPS_PROXY
+        - name: NO_PROXY
+      image: 
+        quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:dcb61fe5e82c0d01b90155f20b0b6ce37446867ca0d005b727fc073f86ed1354
+      name: prometheus-proxy
+      ports:
+        - containerPort: 3001
+          name: https
+          protocol: TCP
+      resources:
+        requests:
+          cpu: 1m
+          memory: 20Mi
+      terminationMessagePolicy: FallbackToLogsOnError
+      volumeMounts:
+        - mountPath: /etc/tls/private
+          name: secret-prometheus-tls
+        - mountPath: /etc/proxy/secrets
+          name: secret-prometheus-proxy
+        - mountPath: /etc/proxy/htpasswd
+          name: secret-htpasswd
+        - mountPath: /etc/pki/ca-trust/extracted/pem/
+          name: configmap-trusted-ca-bundle
+          readOnly: true
+    - name: prometheus
+      resources:
+        requests:
+          cpu: 10m
+          memory: 128Mi
+      image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:36b41684d64f1f0ff932f994d8d37b96c91c19f1b725b97bbb31b5faa3656eb5
+      args:
+        - '--storage.tsdb.retention.time=168h'
+        - '--storage.tsdb.path=/prometheus'
+        - '--web.console.templates=/etc/prometheus/consoles'
+        - '--web.console.libraries=/etc/prometheus/console_libraries'
+        - '--config.file=/etc/prometheus/config_out/prometheus.env.yaml'
+        - '--web.enable-lifecycle'
+        - '--web.external-url=https://prometheus-prod-istio-system.apps.cluster-94qkd.94qkd.sandbox1628.opentlc.com/'
+        - '--web.route-prefix=/'
+        - '--web.listen-address=127.0.0.1:9090'
+        - '--web.config.file=/etc/prometheus/web_config/web-config.yaml'
+      volumeMounts:
+        - mountPath: /etc/pki/ca-trust/extracted/pem/
+          name: configmap-trusted-ca-bundle
+          readOnly: true
+        - mountPath: /etc/prometheus/configmaps/serving-certs-ca-bundle
+          name: configmap-openshift-service-ca-crt
+          readOnly: true
+        - mountPath: /etc/prometheus/configmaps/kubelet-serving-ca-bundle
+          name: configmap-kube-root-ca-crt
+          readOnly: true
+    - name: config-reloader
+      resources:
+        requests:
+          cpu: 1m
+          memory: 10Mi
+  podMetadata:
+    annotations:
+      target.workload.openshift.io/management: '{"effect": "PreferredDuringScheduling"}'
+    labels:
+      app: prometheus
+      app.kubernetes.io/component: prometheus
+      app.kubernetes.io/name: prometheus
+      app.kubernetes.io/part-of: prod-istio-system
+      app.kubernetes.io/version: 2.32.1
+      maistra.io/member-of: prod-istio-system
+  podMonitorSelector:
+    matchLabels:
+      maistra.io/member-of: prod-istio-system
+  serviceMonitorNamespaceSelector:
+    matchLabels:
+      maistra.io/member-of: prod-istio-system
+  rules:
+    alert: {}
+  arbitraryFSAccessThroughSMs: {}
+  version: 2.32.1
+  volumes: []
+  configMaps:
+  - istio-production
+  - trusted-ca-bundle
+  - kube-root-ca.crt
+  - openshift-service-ca.crt
+  image: quay.io/openshift-release-dev/ocp-v4.0-art-dev@sha256:36b41684d64f1f0ff932f994d8d37b96c91c19f1b725b97bbb31b5faa3656eb5
+  replicas: 2
+  ruleSelector: {}
+  ruleNamespaceSelector:
+    matchLabels:
+      maistra.io/member-of: prod-istio-system
+  retention: 2h
+  additionalScrapeConfigs:
+    name: additional-scrape-configs
+    key: prometheus-additional.yaml
