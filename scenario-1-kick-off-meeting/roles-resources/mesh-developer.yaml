@@ -1,0 +1,135 @@
+#oc apply -f mesh-developer.yaml
+#oc adm policy add-role-to-user servicemesh-developer  <username> -n <mesh_data_plane_app_X>
+#oc adm policy add-role-to-user servicemesh-developer  <username> -n <mesh_data_plane_app_Y>
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: servicemesh-developer
+rules:
+- apiGroups:
+  - maistra.io
+  resources:
+  - servicemeshmembers
+  verbs:
+  - '*'
+- apiGroups:
+  - authentication.istio.io
+  - config.istio.io
+  - networking.istio.io
+  - rbac.istio.io
+  - security.istio.io
+  - authentication.maistra.io
+  - rbac.maistra.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  resources:
+  - pods/log
+  - pods/exec
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/exec
+  - pods/log
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - persistentvolumeclaims  
+  - replicationcontrollers 
+  - replicationcontrollers/scale   
+  - secrets
+  - serviceaccounts
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update  
+- apiGroups:
+  - apps
+  resources:
+  - deployments  
+  - deployments/rollback
+  - deployments/scale
+  - replicasets
+  - eplicasets/scale
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update    
+- apiGroups:
+  - apps.openshift.io
+  resources:
+  - deploymentconfigs  
+  - deploymentconfigs/scale
+  verbs:
+  - get
+  - list
+  - watch
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update   
+- apiGroups:
+  - apps.openshift.io
+  resources:
+  - deploymentconfigs/log  
+  - deploymentconfigs/status
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps.openshift.io
+  resources:
+  - deploymentconfigs/rollback
+  verbs:
+  - create   
+- apiGroups:
+  - ""
+  - project.openshift.io
+  resources:
+  - projects
+  verbs:
+  - get
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch

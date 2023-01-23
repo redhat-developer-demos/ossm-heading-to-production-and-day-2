@@ -1,0 +1,143 @@
+#oc apply -f mesh-operator.yaml
+#oc adm policy add-cluster-role-to-user servicemesh-operator-controlplane <username>
+#oc adm policy add-role-to-user view <username> -n <mesh_control_plane> (E.g. istio-system)
+#oc adm policy add-role-to-user servicemesh-operator-pods <username> -n <mesh_control_plane> (E.g. istio-system)
+#oc adm policy add-role-to-user servicemesh-operator-pods <username> -n openshift-operators
+#oc adm policy add-role-to-user servicemesh-operator-pods <username> -n <mesh_data_plane_app_X>
+#oc adm policy add-role-to-user servicemesh-operator-pods <username> -n <mesh_data_plane_app_Y>
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: servicemesh-operator-controlplane
+rules:
+- apiGroups:
+  - operators.coreos.com
+  resources:
+  - clusterserviceversions
+  - catalogsources
+  - installplans
+  - subscriptions
+  - operatorgroups
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - packages.operators.coreos.com
+  resources:
+  - packagemanifests
+  - packagemanifests/icon
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - packages.operators.coreos.com
+  resources:
+  - packagemanifests
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - maistra.io
+  resources:
+  - servicemeshcontrolplanes
+  - servicemeshmemberrolls
+  - servicemeshmembers
+  - servicemeshextensions
+  verbs:
+  - get
+  - list
+  - patch
+  - update
+  - watch
+  - create
+  - delete
+- apiGroups:
+  - jaegertracing.io
+  resources:
+  - jaegers
+  verbs:
+    - '*'
+- apiGroups:
+  - authentication.istio.io
+  - config.istio.io
+  - networking.istio.io
+  - rbac.istio.io
+  - security.istio.io
+  - authentication.maistra.io
+  - rbac.maistra.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: servicemesh-operator-pods
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods/log
+  - pods/exec
+  - secrets
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - pods/exec
+  - pods/log
+  - secrets
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - patch
+  - update
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - get
+  - list
+  - watch
+  - delete
+- apiGroups:
+  - ""
+  - project.openshift.io
+  resources:
+  - projects
+  verbs:
+  - get
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  - route.openshift.io
+  resources:
+  - '*'
+  verbs:
+  - '*'
+- apiGroups:
+  - ""
+  - apps
+  resources:
+  - deployments/scale
+  - deployments
+  verbs:
+  - '*'

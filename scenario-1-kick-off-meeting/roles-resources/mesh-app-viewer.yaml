@@ -1,0 +1,36 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: servicemesh-app-viewer
+rules:
+- apiGroups:
+  - monitoring.kiali.io
+  resources:
+  - monitoringdashboards
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  - project.openshift.io
+  resources:
+  - projects
+  verbs:
+  - get
+- apiGroups:
+  - ""
+  resources:
+  - namespaces
+  verbs:
+  - get
+  - list
+  - watch 
+- apiGroups:
+  - ""
+  resources:
+  - pods 
+  verbs:
+  - get
+  - list
+  - watch  

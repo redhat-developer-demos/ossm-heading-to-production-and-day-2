@@ -1,0 +1,278 @@
+= Kick Off Meeting: Requirements and prerequisites of using the Service Mesh
+:toc:
+
+[[requirements]]
+= Requirements Capture to Drive Mesh Adoption & Configuration
+
+The requirements below are a summary of the Kick-Off Meeting `Requirements` & `Targeted Outcomes` session where stakeholders have stated the capabilities they would like to benefit with Servce Mesh:
+
+1. The _Development Team_ want to be able to trace (every) request during development, and a sample of `20%` of traffic in Production
+2. The _Product Team_ want to see metrics around performance/usage (storing them for up to 1 week)
+3. The _Security_ team wish to enable mTLS in all _intermesh_ and _intramesh_ communications
+4. The _Platform Team_ want to centrally manage security
+5. The _Development Teams_ want to implement some resiliency to make the overall application more stable and reliable.
+
+= User Governance Capture
+
+The personas, roles and responsibilities are greatly affected by certain organizational, operational and governance choices around cloud application platforms.  These involve (but are not limited to):
+
+* _Type of clusters_ (multi domain app clusters vs focused clusters) and by extension type of meshes (multi-tenant meshes vs single cluster meshes).
+* _Choices of automation_ for cloud service configuration (Pipelines, GitOps, other(Ansible/Scripting/ACM), none).
+* _Platform (Service Mesh) Operating Model_ (producer-consumer platform -where admins/ops deploy all configs and devs consume- vs self-service platform).
+* _Dev(Sec)Ops_ adopted culture for application and cloud configuration delivery (including `Istio` configs).
+
+For the purpose of the provided scenarios the travel agency has selected the following options determining the _Model of Operation_.
+
+[[modelofoperation]]
+[cols="2,4,4"]
+.Model of Operation
+|===
+|# |Strategy |Option
+
+| 1 | Cluster Type | Focused Clusters 
+
+| 2 | Automation | GitOps
+
+| 3 | Operating Model | <<sidenote2,Self-Service (restricted)>>
+
+| 4 | Dev(Sec)Ops | GitOps
+
+|===
+
+[[sidenote2]]
+*Self-service (restricted):* In this Model of Operation the teams will be able to create `Istio` configurations in a self-service manner with the exception of `Gateway` resources which will be handled by the `OSSM` operating admin.
+
+
+== Map to Enterprise Personas with Roles & Key Responsibilities setup 
+
+The outcome of the <<User Governance Capture, User Governance Capture workshop>>  and the team <<requirements, Requirements for Mesh Adoption>> is the definition of the following enterprise personas to be described as those that will interact with the Service Mesh (OSSM). See <<roleusercreation, Execute Role & User Creation>> for the creation of users and roles in `DEV` and `PROD` environments.
+
+[cols="1,1,2,5,1"]
+.Personas & Roles
+|===
+|Enterprise Persona |Role |Who he is? | What he does? | Role Setup
+
+| Platform Admin 
+| `Cluster Admin` 
+| Owner of multiple OCP clusters, sets organizational policies
+| Cluster Admin is the Platform Owner & Operator. S/he is a cluster admin who can `add`/`remove`/`update` cluster `operators`, install container `images` to the image `registry` (in the case of a cluster disconnected environment), update the `OCP` version, setup cluster infrastructure, setup security.
+
+The `Cluster Admin` is a super user with all privileges on a cluster and could therefore also be the `Mesh Admin`.
+
+The `Cluster Admin` makes available the necessary cluster infrastructure and configurations (`routers`, `networking`, infra nodes, `labelling`, `CPU`/`RAM` resources on worker nodes) to support deployment and operation of an OCP cluster and the Service Mesh (OSSM)
+
+The `Cluster Admin` is the first point of contact to make the Service Mesh (OSSM) resources available (operators, images etc.), to retrieve the cluster and operator logs needed for troubleshooting 
+
+| link:./roles-resources/mesh-admin.yaml[`Cluster Admin`]
+
+| Mesh Operator 
+| `Mesh Operator` 
+| Operates parts of the cluster and the domain based service mesh for the hosted services 
+| The `Mesh Operator` is actually the `Mesh Admin` of either a whole cluster (`Focused Cluster` with `Single cluster Mesh)` or for a few namespaces (`multi domain clusters` with `multi-tenant meshes`) and depends on how the <<modelofoperation, `Operational Model`>> of the Mesh cluster has been defined. In the `Travel` solution the it will be the former.
+
+The `Mesh Operator` as a `Mesh Admin` can add/remove/update `ServiceMeshControlPlane` (`SMCP`), `ServiceMeshMemberRole` (`SMMR`), `ServiceMeshMember` (`SMM`) resources and any `Istio` resources (`Gateway`, `secrets`, `ServiceEntry`) that may be configured in the control namespace
+
+The `Mesh Operator` configures the Observability stack for the Service Mesh (`OSSM`) control plane based either on the `OSSM` operator or external `Tracing`, `Prometheus`, `Elastic Search` resources )
+
+The `Mesh Operator` is also responsible for mesh security and sets up `CA`, mTLS certs followed by rotation of those certificates
+
+| link:./roles-resources/mesh-operator.yaml[`Mesh Operator`]
+
+| Domain Owner (Tech Lead) 
+| `Mesh Developer` 
+| Onboards developers in the team and understands inter/intra dependencies
+| `Domain Owner` is the _Application Tech Lead_ who is aware of dependencies for the application from the mesh based or external applications and environment components
+
+The `Domain Owner` determines the environemt required for the domain based application to operate in and defines the `Istio` configurations for the data plane (`VirtualService`, `DestinationRule`, `ServiceEntry`, `Sidecar`, `POD` Istio annotations etc.)
+
+The `Domain Owner` collaborates with the `Mesh Operator` for ingress/egress traffic `Istio` configurations (eg. `Gateway`) and `SMCP` resource configurations (`istio-proxy` labelling, `ingressgateway`/`egressgateway` configuration, `proxy` default resources configurations etc.)
+
+|  link:./roles-resources/mesh-developer.yaml[`Mesh Developer`]
+
+| Developer 
+| `Application Viewer` (`DEV` Environment)
+| Consumes platform, mesh and application configurations, reviews and troubleshoots application functionality and performance via KIALI UI, Jaeger telemetry, Prometheus metrics and POD logs
+| The `Developer` is a user who needs to be kept aware of the health, performance and functional correctness of their solution
+
+The `Developer` should only have (view) access to KIALI visualisations for the  namespace where they deploy their applications only, and has therefore a Mesh `Application Viewer` role.
+
+The `Developer` as a Mesh `Application Viewer` due to current requirements of the observability stack components (`Grafana`, `Prometheus`, `Jaeger`) will have access to these PODs and all information included by them *WARNING: NO BETTER WAY OTHER THAN GIVING ACCESS TO POD HAS BEEN FOUND TO ACCESS THE PREVVIOUS*
+
+|  link:./roles-resources/mesh-app-viewer.yaml[`Mesh Application Viewer`]
+
+| Application Ops Team 
+| `Mesh Developer`  (Higher -Non-Dev- Environments)
+| The _Application Ops_ team monitor and maintain the applications in operation in the deployed cluster and within the domain hosted mesh (`OSSM`), including extracting logs, executing commands to verify state, troubleshooting in higher (non-DEV) environemnts
+| The _Application Ops_ team will review `POD` logs and envoy `proxy` configurations, telemetry metrics and jaeger traces for the PODs included in the mesh to validate any functional or performance issues that may arise
+
+The _Application Ops_ team can extract the information (logs, traces, proxy configs) and collaborate with the _Developer_ and _Mesh Operator_ to determine possible application, mesh or configuration issues
+
+The _Application Ops_ team does not create `Istio` configs but can suggest changes/corections to the the _Developer_ and _Mesh Operator_ users.
+
+| link:./roles-resources/mesh-developer.yaml[`Mesh Developer`]
+
+| Product Owner 
+| `Application Viewer` (Higher -Non-Dev- Environment)
+| Monitors (metrics, telemetry, dashboards)  applications (in and out of the mesh) from a domain that makeup the product 
+| The _Product Owner _ will keep himself aware of the health, usage, cost as well other metrics around the domain their solution is part of by accessing the observability stack components (dashboards in `Grafana`, metrics in `Prometheus`, traces in `Jaeger`) and will be able to do so for up to 1 week
+| link:./roles-resources/mesh-app-viewer.yaml[`Mesh Application Viewer`]
+
+|===
+
+
+== Mapping Enterprise Users to Roles in the `DEV` Environment
+
+See <<roleusercreation, Execute Role & User Creation>> for the creation of users and roles in `DEV` and `PROD` environments.
+
+[[usersdev]]
+
+[cols="1,4,3,2"]
+.Users created in `DEV` Environment
+|===
+|Name |Enterprise Persona |Role Bindings |Namespace
+
+| phillip | Platform Admin | `Cluster Admin` (default admin roles) | `dev-istio-system`
+
+| emma | Mesh Operator |  link:./scripts/create-mesh-operator-roles.sh[`Mesh Operator`] | `dev-istio-system`
+
+| cristina | Travel Portal Domain Owner (Tech Lead)  | link:./scripts/create-mesh-dev-roles.sh[`Mesh Developer`] | `dev-travel-portal`, `dev-travel-control`
+
+| farid | Travel Services Domain Owner (Tech Lead)  | link:./scripts/create-mesh-dev-roles.sh[`Mesh Developer`] | `dev-travel-agency`
+
+| john | Developer (TP) | link:./scripts/create-mesh-viewer-roles.sh[`Mesh Application Viewer`] | `dev-travel-portal`, `dev-travel-control`
+
+| mia | Developer (TS) | link:./scripts/create-mesh-viewer-roles.sh[`Mesh Application Viewer`] | `dev-travel-agency`
+
+| mus | Product Owner | link:./scripts/create-mesh-viewer-roles.sh[`Mesh Application Viewer`] | `dev-travel-portal`, `dev-travel-control`, `dev-travel-agency`
+
+|===
+
+
+== Mapping Enterprise Users to Roles in the Higher (`PROD`) Environment
+
+See <<roleusercreation, Execute Role & User Creation>> for the creation of users and roles in `DEV` and `PROD` environments.
+
+[[usersprod]]
+
+[cols="1,3,1,4"]
+.Users created in `PROD` Environment
+|===
+| Name | Enterprise Persona | Role Bindings | Namespace
+
+| phillip | Platform Admin | `Cluster Admin` (default admin roles) | `prod-istio-system`
+
+| emma | Mesh Operator |  link:./scripts/create-mesh-operator-roles.sh[`Mesh Operator`] | `prod-istio-system`
+
+| cristina | Travel Portal Domain Owner (Tech Lead)  | link:./scripts/create-mesh-dev-roles.sh[`Mesh Developer`]> | `prod-travel-portal`, `prod-travel-control`
+
+| farid | Travel Services Domain Owner (Tech Lead)  | link:./scripts/create-mesh-dev-roles.sh[`Mesh Developer`] | `prod-travel-agency`
+
+| craig | Platform (Application Ops) Team  | link:./scripts/create-mesh-viewer-roles.sh[`Mesh Application Viewer`] | `prod-travel-portal`, `prod-travel-control`)
+
+| mus | Product Owner | link:./scripts/create-mesh-viewer-roles.sh[`Mesh Application Viewer`] | `prod-travel-portal`, `prod-travel-control`, `prod-travel-agency`
+
+|===
+
+
+[[roleusercreation]]
+== Execute Role & User Creation
+
+* Create User Roles
+
+----
+oc apply -f ./roles-resources/mesh-operator.yaml
+oc apply -f ./roles-resources/mesh-developer.yaml
+oc apply -f ./roles-resources/mesh-app-viewer.yaml
+----
+
+
+=== Execute User & Role Creation for `DEV` Environment
+
+1. Create Users in Cluster `htpasswd` (link:https://docs.openshift.com/container-platform/4.7/authentication/identity_providers/configuring-htpasswd-identity-provider.html[See Adding or removing a user in `htpasswd`])
++
+----
+./scripts/add-dev-environment-htpasswd-users.sh <htpasswd-secret-name>
+----
+
+2. Add roles to the mesh users in `DEV` namespaces
++
+====
+WARNING: *Namespaces must be created first* (see in next scenario link:../scenario-2-dev-setup/README.adoc[Setting up a DEV environment for the Travel Portal and Travel Agency Teams] 
+====
++
+----
+#./create-admin-roles.sh         	phillip 	(*ADD YOUR OWN CLUSTER ADMIN USER*)
+./scripts/create-mesh-operator-roles.sh emma		dev-istio-system  dev-travel-portal:dev-travel-control:dev-travel-agency
+./scripts/create-mesh-dev-roles.sh 	cristina 	dev-istio-system  dev-travel-portal:dev-travel-control
+./scripts/create-mesh-dev-roles.sh 	farid 	        dev-istio-system  dev-travel-agency
+./scripts/create-mesh-viewer-roles.sh 	john 		dev-travel-portal:dev-travel-control:dev-istio-system
+./scripts/create-mesh-viewer-roles.sh 	mia   		dev-travel-agency:dev-istio-system
+./scripts/create-mesh-viewer-roles.sh 	mus 		dev-travel-portal:dev-travel-control:dev-travel-agency:dev-istio-system
+----
+
+
+=== Execute User & Role Creation for `PROD` Environment
+
+1. Execute the following to add additional users for `PROD` in Cluster `htpasswd` for PROD (link:https://docs.openshift.com/container-platform/4.7/authentication/identity_providers/configuring-htpasswd-identity-provider.html[See Adding or removing a user in `htpasswd`] )
++
+----
+./add-prod-environment-htpasswd-users.sh <htpasswd-secret-name>
+----
+
+2. Add roles to the mesh users in `PROD` namespaces
+
+====
+WARNING: *Namespaces must be created first* (see in link:../scenario-3-prod-basic-setup/README.adoc#user-content-adding-operators-namespaces-userroles-preparation-actions[Adding Operators, Namespaces, User/Roles Preparation Actions for PROD]
+====
+
+----
+./create-mesh-operator-roles.sh emma		prod-istio-system  prod-travel-portal:prod-travel-control:prod-travel-agency
+./create-mesh-dev-roles.sh 	cristina 	prod-istio-system  prod-travel-portal:prod-travel-control
+./create-mesh-dev-roles.sh 	farid 	        prod-istio-system  prod-travel-agency
+./create-mesh-viewer-roles.sh 	craig 		prod-travel-portal:prod-travel-control:prod-travel-agency:prod-istio-system
+----
+
+== Environment Service Mesh Architectures
+
+The final step in the requirements analysis phase is to determine an architecture based on the expected functional and non-functional requirements for the `DEV` and `PROD` environments
+
+=== `DEV` Environment Service Mesh (`OSSM`) Architecture
+
+[cols="5,1,2,2"]
+.`DEV` Service Mesh Components
+|===
+| Name | Instances | Operator | Sizing
+
+| grafana | 1 | `servicemeshoperator` | Default
+| istiod | 1 | `servicemeshoperator` | Default
+| istio-egressgateway | 1 | `servicemeshoperator` | Default
+| istio-ingressgateway | 1 | `servicemeshoperator` | Default
+| jaeger | 1 | `servicemeshoperator` | Default
+| kiali | 1 | `servicemeshoperator` | Default
+| prometheus | 1 | `servicemeshoperator` | Default
+| wasm-cacher-client-side-tenant | 1 | `servicemeshoperator` | Default
+
+
+|===
+
+
+
+=== `PROD` Environment Service Mesh (`OSSM`) Architecture
+
+[cols="5,1,2,2"]
+.`PROD` Service Mesh Components
+|===
+| Name | Instances | Operator | Sizing
+
+| grafana | 1 | `servicemeshoperator` | link:../scenario-3-prod-basic-setup/README.adoc[Production Setup]
+| istiod | 1 | `servicemeshoperator` | link:../scenario-3-prod-basic-setup/README.adoc[Production Setup]
+| istio-egressgateway | 2 | `servicemeshoperator` | link:../scenario-3-prod-basic-setup/README.adoc[Production Setup]
+| istio-ingressgateway | 2 | `servicemeshoperator` | link:../scenario-3-prod-basic-setup/README.adoc[Production Setup]
+| jaeger | 1 | `jaeger-operator` | link:../scenario-3-prod-basic-setup/README.adoc[Production Setup]
+| kiali | 1 | `kiali-operator` | Default
+| prometheus | 1 | `servicemeshoperator` | Default
+| elastic-search | 1 | `elastic-search-operator` | link:../scenario-3-prod-basic-setup/README.adoc[Production Setup]
+
+
+|===
+
