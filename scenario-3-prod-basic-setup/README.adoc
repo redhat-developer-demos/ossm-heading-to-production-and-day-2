@@ -69,8 +69,8 @@ Follow these link:./README-add-operators-and-roles.adoc[operator and roles preps
 
 The `Red Hat Openshift Service Mesh (OSSM)` makes the following 2 suggestions on setting up production environment. We will select the _fully customized_ option for the production setup.
 
-* Option 1: link:https://docs.openshift.com/container-platform/4.8/service_mesh/v2x/ossm-deploy-production.html#ossm-smcp-prod_ossm-architecture[Production distributed tracing platform deployment (minimal) -  via SMCP Resource]
-* Option 2: link:https://docs.openshift.com/container-platform/4.8/service_mesh/v2x/ossm-reference-jaeger.html#ossm-deploying-jaeger-production_jaeger-config-reference[Production distributed tracing platform deployment (fully customized)]
+* Option 1: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-deploy-production.html#ossm-smcp-prod_ossm-architecture[Production distributed tracing platform deployment (minimal) -  via SMCP Resource]
+* Option 2: link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-reference-jaeger.html#ossm-deploying-jaeger-production_jaeger-config-reference[Production distributed tracing platform deployment (fully customized)]
 
 ==== Configure Jaeger & Elastic Search
 
