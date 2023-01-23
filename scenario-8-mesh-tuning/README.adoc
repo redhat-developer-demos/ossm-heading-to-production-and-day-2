@@ -513,6 +513,8 @@ Although there are no specific sizing information on `grafana` it is useful to n
 
 The above information provide guidance to _Application_ and _Platform_ teams on uncovering capacity needs. However, in order to fine-tune a service mesh across the _control plane_ and _data plane_ of the service mesh aspects such as TLS settings in and out of a cluster, service to service communication requirements, bootstrapping configuration, latency tuning, infrastructure configuration, etc., need to be well understood before arriving at a stable set of benchmarks.
 
+IMPORTANT: Next in link:../scenario-9-mesh-upgrade/README.adoc[Day-2 - Upgrade] Help the Travel Agency personnel get an undertanding of the `OSSM` versioned components and the work involved for an upgrade.
+
 == Appendix Resources
 
 === istio-proxy metrics
@@ -525,16 +527,15 @@ The above information provide guidance to _Application_ and _Platform_ teams on 
 === istiod metrics
 
 * link:https://istio.io/latest/docs/reference/commands/pilot-discovery/#metrics[Pilot Metrics]
-* link:https://www.datadoghq.com/blog/istio-metrics/#pilot-metrics[Datadog pilot Metrics]
 
 === Observability stack
 
 * link:https://kiali.io/docs/configuration/p8s-jaeger-grafana/prometheus/#prometheus-tuning[Prometheus Tuning]
 * link:https://istio.io/latest/docs/ops/best-practices/observability/#using-prometheus-for-production-scale-monitoring[Using Prometheus for Production Scale Monitoring (Istio)]
-* link:https://chat.google.com/room/AAAApkJHr5k/K-NTloEtUVk[GChat tuning tracing]
 
 === Mesh Performance Testing Resources
 
+* link:https://github.com/acidonper/maistra-test-tool/tree/feature/performance/performance[maistra-test-tool performance]
 * link:link:https://linux.die.net/man/1/siege[siege]
 * link:https://events.istio.io/istiocon-2022/sessions/scaling-to-1m-rps-with-multi-cluster-istio/[caling to 1m rps with multi-cluster-istio]
 * link:https://locust.io/[Locust load-testing]
@@ -547,7 +548,6 @@ The above information provide guidance to _Application_ and _Platform_ teams on 
 
 * link:https://istio.io/latest/docs/ops/deployment/performance-and-scalability/[Istio Performance and Scalability]
 * link:https://istio.io/v1.10/blog/2019/performance-best-practices/[2019 Istio Performance Best Practices]
-* link:https://docs.google.com/document/d/1tRUIqx8oTtjzwE4_KbBNF3SWHTkXNcHXx2xevV7b9E4/edit[ServiceMesh-Sizing (Gdrive)]
 * link:https://docs.openshift.com/container-platform/4.11/scalability_and_performance/optimizing-networking.html[Optimizing networking]
 * link:https://docs.openshift.com/container-platform/4.11/scalability_and_performance/recommended-install-practices.html[OCP Scalability & Performance Recommended host practices]]
 
