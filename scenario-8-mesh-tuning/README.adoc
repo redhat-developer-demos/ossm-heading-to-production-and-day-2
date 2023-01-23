@@ -23,7 +23,7 @@ ____
 
 == `Service Mesh` Tuning Focus
 
-It is important as _first practice_, in tuning a _Service Mesh_, to have an architecture decision on the link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-deployment-models.html[Deployment Model] to be used with that mesh and to have established link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-3-prod-basic-setup/README.adoc#user-content-final-service-mesh-production-setup[_Purpose and Principals_] around the use and setup of this _Service Mesh_ as these will determine the type of tuning required.
+It is important as _first practice_, in tuning a _Service Mesh_, to have an architecture decision on the link:https://docs.openshift.com/container-platform/4.11/service_mesh/v2x/ossm-deployment-models.html[Deployment Model] to be used with that mesh and to have established xref:../scenario-3-prod-basic-setup/README.adoc#user-content-final-service-mesh-production-setup[_Purpose and Principals_] around the use and setup of this _Service Mesh_ as these will determine the type of tuning required.
 
 Furthermore, be aware that in a cloud based environment there are many components that should be tuned (firewalls, loadbalancers, container platform etc.) we shall focus the following guidance only on the Red Hat `OSSM` 2 major areas:
 
@@ -428,11 +428,11 @@ Capacity planning for the observability stack involves the sizing of:
 * Runtime components (Kiali, Jaeger, ElasticSearch - for Jaeger Storage-, Prometheus, Grafana)
 * Persistence for long-term storage of metrics, traces, graphs etc.
 
-The capacity requirements are directly dependent to the size of the _data plane_ (sidecars), the number of incoming requests and configuration of metrics and traces capture as well as their retention period. In the _Production Setup_ scenario we established a link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-3-prod-basic-setup/README.adoc#user-content-final-service-mesh-production-setup[Final Service Mesh Production Setup] based on which the `production` SMCP has been configured. We shall now look if this configuration is appropriate for the established _non-functional_ requirements.
+The capacity requirements are directly dependent to the size of the _data plane_ (sidecars), the number of incoming requests and configuration of metrics and traces capture as well as their retention period. In the _Production Setup_ scenario we established a xref:../scenario-3-prod-basic-setup/README.adoc#user-content-final-service-mesh-production-setup[Final Service Mesh Production Setup] based on which the `production` SMCP has been configured. We shall now look if this configuration is appropriate for the established _non-functional_ requirements.
 
 ==== Prometheus sizing
 
-During the activity to link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-3-prod-basic-setup/README.adoc#user-content-option-1-setup-persistencevolume-for-smcp-created-prometheus-resource[Configure Prometheus for Production] a `PersistenceVolume` of *_10Gi_* in size was allocated to store metrics for the production environment.
+During the activity to xref:../scenario-3-prod-basic-setup/README.adoc#user-content-option-1-setup-persistencevolume-for-smcp-created-prometheus-resource[Configure Prometheus for Production] a `PersistenceVolume` of *_10Gi_* in size was allocated to store metrics for the production environment.
 
 In order to establish if this allocation is sufficient in handling the expected load consider the following expectations:
 
@@ -456,7 +456,7 @@ If tuning of the `prometheus` metrics collection is deemed necessary, this can b
 
 ==== Jaeger and ElasticSearch sizing
 
-During the link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-3-prod-basic-setup/README.adoc#user-content-configure-servicemeshcontrolplane-tracing-for-production[`Jaeger Configuration for Production`] the `Jaeger` resource was externalized from the `SMCP` and configured with an `ElasticSearch` single node cluster storage of *_1Gi_* in size.
+During the xref:../scenario-3-prod-basic-setup/README.adoc#user-content-configure-servicemeshcontrolplane-tracing-for-production[`Jaeger Configuration for Production`] the `Jaeger` resource was externalized from the `SMCP` and configured with an `ElasticSearch` single node cluster storage of *_1Gi_* in size.
 
 The three key components to remember before choosing the appropriate Elastic Search cluster settings are as follows:
 
