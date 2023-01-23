@@ -395,12 +395,19 @@ Actions with role `Mesh Developer`
 ====
 
 * In the previous link:https://gitlab.consulting.redhat.com/servicemesh-in-action/ossm-heading-to-production-and-day-2/-/blob/main/scenario-4-onboard-new-portal-with-authentication/README.adoc#user-content-create-requestauthentication-and-authorizationpolicy-to-allow-access-for-gto-external-user-gtouser[scenario-4] we applied an `AuthorizationPolicy` resource (`authpolicy-gto-external`) which allows requests flowing via the `gto-external-ingressgateway`. Now, we will utilize the `default-deny` pattern to DENY requests unless there is a specific `AuthorizationPolicy` allowing it.
-** As *emma* (`Mesh Operator`) apply the `default-deny` pattern to the in the `prod-travel-control` and `prod-travel-agency` namespace.
+** As *cristina* (`Mesh Developer`) _Travel Portal Domain Owner (Tech Lead)_ apply the `default-deny` pattern to `prod-travel-control` namespace.
 +
 ----
 cd ossm-heading-to-production-and-day-2/scenario-5-new-regulations-mtls-everywhere
-./login-as.sh emma
-oc apply -f authz-resources/01-default-deny.yaml
+./login-as.sh cristina
+oc apply -f authz-resources/01-default-deny-travel-portal-access.yaml
+----
+
+** As *farid* (`Mesh Developer`) _Travel Services Domain Owner (Tech Lead)_ apply the `default-deny` pattern to `prod-travel-agency` namespace.
++
+----
+./login-as.sh farid
+oc apply -f authz-resources/01-default-deny-travel-agency-access.yaml
 ----
 
 * We can verify that now no communications from the _Service Mesh_ are authorizated towards the _Travel Agency API_ Services or the _Travel Portal_.
