@@ -130,7 +130,7 @@ If we are suspecting that the configurations may be missing, misplaced or are ge
 * Get a description of the POD's and Service exposed ports and applied `Istio` configs to enhance the understanding of what configs are used. This can be extracted with `istioctl` or via `KIALI` console by going to `Workloads` and clicking on the workload interested.
 +
 ----
-istioctl experimental describe pod cars-v1-594b79cfbf-wlcg9.prod-travel-agency -i pro-istio-system -n prod-travel-agency
+istioctl experimental describe pod cars-v1-594b79cfbf-wlcg9.prod-travel-agency -i prod-istio-system -n prod-travel-agency
 Pod: cars-v1-594b79cfbf-wlcg9
 Pod Ports: 8000 (cars), 5775/UDP (jaeger-agent), 5778 (jaeger-agent), 6831/UDP (jaeger-agent), 6832/UDP (jaeger-agent), 14271 (jaeger-agent), 15090 (istio-proxy)
 --------------------
