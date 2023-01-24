@@ -256,9 +256,9 @@ HTTP/1.1 403 Forbidden
 ** Note: the <CLIENT_SECRET> must be replaced with the client secret of the RHSSO client created during prerequisites phase (see link:prerequisites/yaml/rhsso/03_istio-client.yaml[03_istio-client.yaml]).
 +
 ----
-curl -Lk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio&client_secret=<CLIENT_SECRET>" \
+TOKEN=$(curl -Lk --data "username=gtouser&password=gtouser&grant_type=password&client_id=istio&client_secret=<CLIENT_SECRET>" \
 https://keycloak-rhsso.apps.<CLUSTERNAME>.<BASEDOMAIN>/auth/realms/servicemesh-lab/protocol/openid-connect/token \
-| jq .access_token
+| jq .access_token)
 
 echo $TOKEN
 ----
